@@ -71,8 +71,7 @@ zImage_path=out/target/product/$TARGET_PRODUCT/obj/KERNEL_OBJ/arch/arm/boot/zIma
 BUILDVERSION=WR2-V$current_kversion-`date +%Y%m%d-%H%M`-$TARGET_PRODUCT
 
 #Build phase
-#./mk -o=TARGET_BUILD_VARIANT=user -t  $TARGET_PRODUCT n lk
-./mk -o=TARGET_BUILD_VARIANT=user -t  $TARGET_PRODUCT n k
+./mk -o=TARGET_BUILD_VARIANT=user -t  $TARGET_PRODUCT n lk && ./mk -o=TARGET_BUILD_VARIANT=user -t  $TARGET_PRODUCT n k
 
 if [ "$(ls -A `pwd`/$zImage_path)" ]; then
 echo "Build Successful"
@@ -107,7 +106,7 @@ fi
  mediatek/build/tools/images/acp -uv out/target/product/${TARGET_PRODUCT}/kernel_${TARGET_PRODUCT}.bin out/target/product/${TARGET_PRODUCT}/kernel
  mediatek/build/tools/images/mkbootfs mediatek/host/${TARGET_PRODUCT} | mediatek/build/tools/images/minigzip > out/target/product/${TARGET_PRODUCT}/ramdisk.img
  mediatek/build/tools/mkimage out/target/product/${TARGET_PRODUCT}/ramdisk.img ROOTFS > out/target/product/${TARGET_PRODUCT}/ramdisk_android.img
- mv out/target/product/${TARGET_PRODUCT}/ramdisk.img mediatek/kernel/trace32/${TARGET_PRODUCT}_ramdisk.img
+# mv out/target/product/${TARGET_PRODUCT}/ramdisk.img mediatek/kernel/trace32/${TARGET_PRODUCT}_ramdisk.img
  mv out/target/product/${TARGET_PRODUCT}/ramdisk_android.img out/target/product/${TARGET_PRODUCT}/ramdisk.img
  mediatek/build/tools/images/mkbootimg  --kernel out/target/product/${TARGET_PRODUCT}/kernel --ramdisk out/target/product/${TARGET_PRODUCT}/ramdisk.img --board 1336460062 --output out/target/product/${TARGET_PRODUCT}/boot.img
  echo "		==> [SUCCESS]   boot.img done!"
@@ -124,13 +123,13 @@ fi
  rm -R ./build_results
  fi
  mkdir -p build_results
- mkdir -p build_results/modules
+ #mkdir -p build_results/modules
  cp out/target/product/${TARGET_PRODUCT}/boot.img build_results
  cp out/target/product/${TARGET_PRODUCT}/logo.bin build_results
  cp out/target/product/${TARGET_PRODUCT}/lk.bin build_results
  cp out/target/product/${TARGET_PRODUCT}/kernel build_results
  mv build_results/kernel build_results/zImage
- cp out/target/product/${TARGET_PRODUCT}/obj/KERNEL_OBJ/fs/exfat/exfat.ko build_results/modules
+ #cp out/target/product/${TARGET_PRODUCT}/obj/KERNEL_OBJ/fs/exfat/exfat.ko build_results/modules
  echo ""
  echo ""
  echo ""
@@ -139,12 +138,12 @@ fi
 
 # Make flashable zip
  cp out/target/product/${TARGET_PRODUCT}/boot.img mediatek/host/zip
- cp out/target/product/${TARGET_PRODUCT}/obj/KERNEL_OBJ/fs/exfat/exfat.ko mediatek/host/zip/modules
+ #cp out/target/product/${TARGET_PRODUCT}/obj/KERNEL_OBJ/fs/exfat/exfat.ko mediatek/host/zip/modules
  cd mediatek/host/zip
  zip -r -0 WR2-Kernel-${TARGET_PRODUCT}.zip ./*
  mv WR2-Kernel-${TARGET_PRODUCT}.zip ../../../build_results
  rm ../../../mediatek/host/zip/boot.img
- rm ../../../mediatek/host/zip/modules/exfat.ko
+# rm ../../../mediatek/host/zip/modules/exfat.ko
  echo "		==> [OK]   Find all filen into build_results folder!"
 
 DATE_END=$(date +"%s")

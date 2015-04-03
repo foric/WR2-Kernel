@@ -101,6 +101,7 @@ $MTK_NAND_UBIFS_SUPPORT=$ENV{MTK_NAND_UBIFS_SUPPORT};
 $PL_MODE=$ENV{PL_MODE};
 $YAML_SUPPORT=$ENV{MTK_YAML_SCATTER_FILE_SUPPORT};
 &InitGlobalValue();
+$CUSTOM_WIKO_VERSION= $ENV{CUSTOM_WIKO_VERSION};
 
 my $PART_TABLE_FILENAME   = "mediatek/build/tools/ptgen/$PLATFORM/partition_table_${PLATFORM}.xls"; # excel file name
 my $REGION_TABLE_FILENAME = "mediatek/build/tools/emigen/$PLATFORM/MemoryDeviceList_${PLATFORM}.xls";  #eMMC region information
@@ -165,6 +166,10 @@ if($LDVT_SUPPORT eq "yes"){
 
 if($PL_MODE ne ""){
 	$SHEET_NAME = lc($PL_MODE);
+}
+
+if($CUSTOM_WIKO_VERSION eq "yes"){
+	$SHEET_NAME = $SHEET_NAME . " wiko";
 }
 
 #****************************************************************************
