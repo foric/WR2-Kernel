@@ -8,9 +8,9 @@
 import /init.usb.rc
 import /init.trace.rc
 
-import /FWUpgradeInit.rc
+#import /FWUpgradeInit.rc
 
-import init.xlog.rc
+#import init.xlog.rc
 
 on early-init
     # Set init and its forked children's oom_adj.
@@ -52,7 +52,7 @@ on init
 
 sysclktz 0
 
-loglevel 6
+loglevel 3
     write /proc/bootprof "INIT: on init start"
 
 # setup the global environment
@@ -261,9 +261,6 @@ on fs_property:ro.persist.partition.support=yes
 # checker programs.
     mkdir /dev/fscklogs 0770 root system
 
-on fs
-
-   mount iso9660 loop@/system/mobile_toolkit/iAmCdRom.iso /mnt/cd-rom ro
 on post-fs
     # change sbchk permission before mounted as read-only
     mount rootfs rootfs / rw remount
@@ -745,7 +742,7 @@ on boot
    start drvbd
 
     # xlog
-    start xlogboot
+#    start xlogboot
 
 # basic network init
     ifup lo
@@ -991,9 +988,6 @@ on property:persist.uartconsole.enable=1
 ## Daemon processes to be run by init.
 ##
 
-# Update the second boot logo
-service bootlogoupdater /system/bin/boot_logo_updater
-    oneshot
 
 service ueventd /sbin/ueventd
     class core
@@ -1053,8 +1047,6 @@ service drvbd /system/bin/drvbd
 service debuggerd /system/bin/debuggerd
     class main
 
-service mobile_log_d /system/bin/mobile_log_d
-    class main
     
 # bugreport is triggered by ctl.start bugreport
 service bugreport /system/bin/bugmailer.sh -v
@@ -1068,11 +1060,11 @@ service servicemanager /system/bin/servicemanager
     group system
     critical
     onrestart restart healthd
-    onrestart restart zygote
+#    onrestart restart zygote
     onrestart restart media
-    onrestart restart surfaceflinger
+#    onrestart restart surfaceflinger
     onrestart restart drm
-    onrestart restart aal
+#    onrestart restart aal
 
 service vold /system/bin/vold
     class core
@@ -1137,10 +1129,6 @@ service audio-daemon /system/bin/audiocmdservice_atci
     disabled
     oneshot
 
-service md_minilog_util /system/bin/md_minilog_util
-    user root
-    disabled
-    oneshot
     
 service pq /system/bin/pq
     class main
@@ -1150,9 +1138,9 @@ service pq /system/bin/pq
 
 service surfaceflinger /system/bin/surfaceflinger
     class main
-#    user system
+    user system
     group graphics
-    onrestart restart zygote
+#    onrestart restart zygote
 
 service aal /system/bin/aal
     class main
@@ -1478,35 +1466,6 @@ service ipod /system/bin/ipod
     socket ipohctl stream 0660 root root
     disabled
 
-service extmdlogger /system/bin/extmdlogger
-    class main
-    user shell
-    group shell system radio sdcard_rw inet media_rw sdcard_r ccci
-
-service GoogleOtaAgent /system/bin/GoogleOtaBinder
-    user system
-    group system
-
-service mdlogger /system/bin/mdlogger
-    class main
-    user shell
-    group shell system radio sdcard_rw inet media_rw sdcard_r ccci
-    disabled
-    oneshot
-
-service dualmdlogger /system/bin/dualmdlogger
-    class main
-    user shell
-    group shell system radio sdcard_rw inet sdcard_r media_rw ccci
-    disabled
-    oneshot
-    
-service emcsmdlogger /system/bin/emcsmdlogger
-    class main
-    user shell
-    group system shell radio sdcard_rw inet media_rw sdcard_r ccci
-    disabled
-    oneshot
 
 #
 #sensor service (begin)
@@ -1516,17 +1475,7 @@ service msensord /system/bin/msensord
     class main
     oneshot
 
-service s62xd /system/bin/s62xd
-    disabled
-    user compass
-    group system
-    class main
 
-service ami304d /system/bin/ami304d
-    user system
-    group system
-    disabled
-    class main
 
 service memsicd /system/bin/memsicd
      disabled
@@ -1541,17 +1490,7 @@ service memsicd3416x /system/bin/memsicd3416x
     class main
     oneshot
 
-service akmd8975 /system/bin/akmd8975
-    disabled
-    user system
-    group system
-    class main
 
-service akmd8963 /system/bin/akmd8963
-    disabled
-    user system
-    group system
-    class main
 
 service akmd09911 /system/bin/akmd09911
     disabled
@@ -1559,24 +1498,8 @@ service akmd09911 /system/bin/akmd09911
     group system
     class main
 
-service bmm050d /system/bin/bmm050d
-    disabled
-    user system
-    group system
-    class main
 
-service mc6420d /system/bin/mc6420d
-    disabled
-    user system
-    group system
-    class main
     
-service qmc5983d /system/bin/qmc5983d
-     disabled
-	 user system
-    group system
-    class main
-
 service orientationd /system/bin/orientationd
     disabled
     user system
@@ -1686,10 +1609,6 @@ service batterywarning /system/bin/batterywarning
     user shell
     group shell
 
-service backuprestore /system/bin/br_app_data_service
-	class main
-	socket backuprestore stream 0660 root sdcard_rw
-	user root
 	
 #service BGW /system/xbin/BGW
 #	user system
