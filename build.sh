@@ -43,6 +43,7 @@ do
   echo
   echo "  1 - Wiko RAINBOW"
   echo "  2 - Micromax A120 C2C"
+  echo "  3 - Wiko BLOOM"
   echo
   echo "  x - Exit"
   echo
@@ -52,6 +53,7 @@ do
 	case $opt in
 		1) TARGET_PRODUCT=wiko; break;;
 		2) TARGET_PRODUCT=mmx; break;;
+		3) TARGET_PRODUCT=bloom; break;;
 		x) clear; echo; echo "Goodbye."; echo; exit 1;;
 		*) ERR_MSG="Invalid option!"; clear;;
 	esac
@@ -66,7 +68,8 @@ zImage_path=out/target/product/$TARGET_PRODUCT/obj/KERNEL_OBJ/arch/arm/boot/zIma
 BUILDVERSION=WR2-V$current_kversion-`date +%Y%m%d-%H%M`-$TARGET_PRODUCT
 
 #Build phase
-./mk -o=TARGET_BUILD_VARIANT=user -t  $TARGET_PRODUCT n lk && ./mk -o=TARGET_BUILD_VARIANT=user -t  $TARGET_PRODUCT n k
+#./mk -o=TARGET_BUILD_VARIANT=user -t  $TARGET_PRODUCT n lk
+./mk -o=TARGET_BUILD_VARIANT=user -t  $TARGET_PRODUCT n k
 
 if [ "$(ls -A `pwd`/$zImage_path)" ]; then
 echo "Build Successful"
