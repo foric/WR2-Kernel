@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+export KBUILD_BUILD_USER="FoRiC"
+export KBUILD_BUILD_HOST="Monster-PC"
+
 #Toolchain
 export CROSS_COMPILE=`pwd`/toolchain/arm-cortex_a7-linux-gnueabihf-linaro_4.9/bin/arm-cortex_a7-linux-gnueabihf-
 
