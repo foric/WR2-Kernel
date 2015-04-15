@@ -12,6 +12,16 @@ ui_print("Installing WR2-Kernel boot.img....");
 assert(package_extract_file("boot.img", "/tmp/boot.img"),
 write_raw_image("/tmp/boot.img", "bootimg"),
 delete("/tmp/boot.img"));
+ui_print("");
+ui_print("Installing WR2-Kernel lk.bin....");
+assert(package_extract_file("lk.bin", "/tmp/lk.bin"),
+write_raw_image("/tmp/lk.bin", "uboot"),
+delete("/tmp/lk.bin"));
+ui_print("");
+ui_print("Installing WR2-Kernel logo.bin....");
+assert(package_extract_file("logo.bin", "/tmp/logo.bin"),
+write_raw_image("/tmp/logo.bin", "logo"),
+delete("/tmp/logo.bin"));
 ui_print("WR2-Kernel Installed");
 ui_print("");
 set_progress(0.20);
